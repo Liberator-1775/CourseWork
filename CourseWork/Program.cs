@@ -314,6 +314,8 @@ namespace CourseWork
                     buttons[i + 1].Click();
                 }
             }
+
+            _sectionCounter--;
         }
     }
 }
