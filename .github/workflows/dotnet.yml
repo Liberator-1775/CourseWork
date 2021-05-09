@@ -28,6 +28,9 @@ jobs:
         git submodule update
         yarn install
         yarn run dev
+  test:
+    runs-on: ubuntu-latest
+    steps:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
