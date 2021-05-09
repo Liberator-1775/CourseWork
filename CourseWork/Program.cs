@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 
@@ -12,7 +13,9 @@ namespace CourseWork
     {
         private static void Main()
         {
-            var shopping = new Shopping {Driver = new ChromeDriver("../../../../Drivers/")};
+            ChromeOptions chromeOptions = new ChromeOptions();
+            var shopping = new Shopping
+                {Driver = new RemoteWebDriver(new Uri("http://localhost:4444/wd/hub"), chromeOptions)};
             shopping.Driver.Navigate().GoToUrl(@"http://localhost:3000");
             shopping.Driver.Manage().Window.Maximize();
             shopping.AddSection("Test section 1");
