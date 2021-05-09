@@ -24,6 +24,8 @@ jobs:
     - name: Run yarn install and web app
       run: |
         cd shopping
+        git submodule init
+        git submodule update
         yarn install
         yarn run dev
     - name: Restore dependencies
