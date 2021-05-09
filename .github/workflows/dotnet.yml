@@ -26,4 +26,4 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Run
-      run: dotnet run
+      run: dotnet run --project ./CourseWork/CourseWork.csproj
