@@ -21,8 +21,6 @@ jobs:
         dotnet-version: 5.0.x
     - name: Setup Node.js environment
       uses: actions/setup-node@v2.1.5
-    - name: Setup Yarn
-      uses: comchangs/action-yarn@v0.1-beta
     - name: Run yarn install
       run: yarn install
     - name: Run web app
