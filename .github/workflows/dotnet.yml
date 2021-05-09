@@ -21,10 +21,14 @@ jobs:
         dotnet-version: 5.0.x
     - name: Setup Node.js environment
       uses: actions/setup-node@v2.1.5
+    - name: cd shopping
+      run: cd shopping
     - name: Run yarn install
       run: yarn install
     - name: Run web app
       run: yarn run dev
+    - name: cd ..
+      run: cd ..
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
