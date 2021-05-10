@@ -16,6 +16,7 @@ jobs:
     - name: Start Selenoid Server
       uses: Xotabu4/selenoid-github-action@v1
   tests:
+    needs: selenoid
     
     runs-on: self-hosted
 
