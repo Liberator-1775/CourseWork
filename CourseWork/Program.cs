@@ -15,11 +15,11 @@ namespace CourseWork
         {
             ChromeOptions chromeOptions = new ChromeOptions();
             var shopping = new Shopping
-                {Driver = new RemoteWebDriver(new Uri("0.0.0.0:4444/wd/hub"), chromeOptions)};
-            shopping.Driver.Navigate().GoToUrl("0.0.0.0:3000");
+                {Driver = new RemoteWebDriver(new Uri(@"http://0.0.0.0:4444/wd/hub"), chromeOptions)};
+            shopping.Driver.Navigate().GoToUrl(@"http://0.0.0.0:3000");
             shopping.Driver.Manage().Window.Maximize();
             shopping.AddSection("Test section 1");
-            shopping.Driver.Navigate().GoToUrl("0.0.0.0:3000");
+            shopping.Driver.Navigate().GoToUrl(@"http://0.0.0.0:3000");
             shopping.AddItem("Test item 1", "Test section 1");
             shopping.AddItem("Test item 2", "Test section 1");
             shopping.RemoveItem("Test item 1");
@@ -44,7 +44,7 @@ namespace CourseWork
         {
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(10));
             IWebElement element;
-            if (Driver.Url == "0.0.0.0:3000/options")
+            if (Driver.Url == @"http://0.0.0.0:3000/options")
             {
                 element = wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Add items")));
                 element.Click();
@@ -69,7 +69,7 @@ namespace CourseWork
                 element = wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("button")));
                 element.SendKeys(Keys.Escape);
             }
-            else if (Driver.Url == "0.0.0.0:3000/sections")
+            else if (Driver.Url == @"http://0.0.0.0:3000/sections")
             {
                 element = wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Add items")));
                 element.Click();
@@ -95,7 +95,7 @@ namespace CourseWork
                 element = wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("button")));
                 element.SendKeys(Keys.Escape);
             }
-            else // Url == "0.0.0.0:3000"
+            else // Url == @"http://0.0.0.0:3000"
             {
                 if (_itemCounter > 0)
                 {
