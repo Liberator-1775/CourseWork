@@ -1,3 +1,4 @@
 [submodule "shopping"]
 	path = shopping
 	url = https://github.com/Liberator-1775/shopping
+	branch = master
