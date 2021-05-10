@@ -7,20 +7,15 @@ on:
     branches: [ master ]
 
 jobs:
-  selenoid:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Start Selenoid Server
-      uses: Xotabu4/selenoid-github-action@v1
   tests:
     needs: selenoid
     
     runs-on: self-hosted
 
     steps:
+    - uses: actions/checkout@v2
+    - name: Start Selenoid Server
+      uses: Xotabu4/selenoid-github-action@v1
     - name: Run web app
       run: |
         cd shopping
