@@ -16,8 +16,10 @@ jobs:
     - name: Start Selenoid Server
       uses: Xotabu4/selenoid-github-action@v1
     - name: Run web app
-      working-directory: /shopping
+      working-directory: ./shopping
       run: |
+        git submodule init
+        git submodule update
         docker build -t shopping .
         docker run -dp 3000:3000 shopping
     - name: Setup .NET SDK
