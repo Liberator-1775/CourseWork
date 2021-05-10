@@ -23,6 +23,7 @@ jobs:
     steps:
     - name: Run web app
       run: |
+        cd shopping
         docker build -t shopping .
         docker run -dp 3000:3000 shopping
     - name: Setup .NET SDK
