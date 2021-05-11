@@ -17,7 +17,7 @@ namespace CourseWork
             var shopping = new Shopping
                 {Driver = new RemoteWebDriver(new Uri(@"http://0.0.0.0:4444/wd/hub"), chromeOptions)};
             WebDriverWait wait = new WebDriverWait(shopping.Driver, TimeSpan.FromSeconds(60));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("input")));
+            wait.Until(ExpectedConditions.ElementExists(By.ClassName("input")));
             shopping.Driver.Navigate().GoToUrl(@"http://0.0.0.0:3000");
             shopping.Driver.Manage().Window.Maximize();
             shopping.AddSection("Test section 1");
