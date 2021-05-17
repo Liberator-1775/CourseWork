@@ -39,6 +39,7 @@ namespace CourseWork
         private int _sectionCounter;
         private int _itemCounter;
         public StringBuilder Url { get; }
+        private WebDriverWait _wait;
 
         public Shopping()
         {
@@ -52,24 +53,24 @@ namespace CourseWork
             getAppUrl.Start();
             Url = new StringBuilder("http://" + getAppUrl.StandardOutput.ReadToEnd() + ":3000");
             Driver.Navigate().GoToUrl(Url.ToString());
+            _wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(60));
         }
 
         public void AddItem(string name, string sectionName)
         {
-            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(10));
             IWebElement element;
             if (Driver.Url == Url + @"/options")
             {
-                element = wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Add items")));
+                element = _wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Add items")));
                 element.Click();
-                element = wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("input")));
+                element = _wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("input")));
                 element.Click();
                 element.SendKeys(name);
                 ReadOnlyCollection<IWebElement> buttons =
-                    wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("button")));
+                    _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("button")));
                 buttons[2].Click();
                 ReadOnlyCollection<IWebElement> dropdownItems =
-                    wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("dropdown-item")));
+                    _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("dropdown-item")));
                 for (int i = 0; i < dropdownItems.Count; i++)
                 {
                     if (dropdownItems[i].Text == sectionName)
@@ -80,22 +81,22 @@ namespace CourseWork
 
                 buttons[3].Click();
                 _itemCounter++;
-                element = wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("button")));
+                element = _wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("button")));
                 element.SendKeys(Keys.Escape);
             }
             else if (Driver.Url == Url + @"/sections")
             {
-                element = wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Add items")));
+                element = _wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Add items")));
                 element.Click();
                 ReadOnlyCollection<IWebElement> inputFields =
-                    wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("input")));
+                    _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("input")));
                 inputFields[_sectionCounter + 1].Click();
                 inputFields[_sectionCounter + 1].SendKeys(name);
                 ReadOnlyCollection<IWebElement> buttons =
-                    wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("button")));
+                    _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("button")));
                 buttons[_sectionCounter + 2].Click();
                 ReadOnlyCollection<IWebElement> dropdownItems =
-                    wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("dropdown-item")));
+                    _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("dropdown-item")));
                 for (int i = 0; i < dropdownItems.Count; i++)
                 {
                     if (dropdownItems[i].Text == sectionName)
@@ -106,7 +107,7 @@ namespace CourseWork
 
                 buttons[_sectionCounter + 3].Click();
                 _itemCounter++;
-                element = wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("button")));
+                element = _wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("button")));
                 element.SendKeys(Keys.Escape);
             }
             else // Url == @"http://172.20.0.X:3000/"
@@ -114,15 +115,15 @@ namespace CourseWork
                 if (_itemCounter > 0)
                 {
                     ReadOnlyCollection<IWebElement> buttons =
-                        wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("button")));
+                        _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("button")));
                     buttons[_itemCounter + 1].Click();
-                    element = wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("input")));
+                    element = _wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("input")));
                     element.Click();
                     element.SendKeys(name);
-                    buttons = wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("button")));
+                    buttons = _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("button")));
                     buttons[_itemCounter + 2].Click();
                     ReadOnlyCollection<IWebElement> dropdownItems =
-                        wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("dropdown-item")));
+                        _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("dropdown-item")));
                     for (int i = 0; i < dropdownItems.Count; i++)
                     {
                         if (dropdownItems[i].Text == sectionName)
@@ -133,19 +134,19 @@ namespace CourseWork
 
                     buttons[_itemCounter + 3].Click();
                     _itemCounter++;
-                    element = wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("button")));
+                    element = _wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("button")));
                     element.SendKeys(Keys.Escape);
                 }
                 else
                 {
-                    element = wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("input")));
+                    element = _wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("input")));
                     element.Click();
                     element.SendKeys(name);
                     ReadOnlyCollection<IWebElement> buttons =
-                        wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("button")));
+                        _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("button")));
                     buttons[1].Click();
                     ReadOnlyCollection<IWebElement> dropdownItems =
-                        wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("dropdown-item")));
+                        _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("dropdown-item")));
                     for (int i = 0; i < dropdownItems.Count; i++)
                     {
                         if (dropdownItems[i].Text == sectionName)
@@ -162,46 +163,43 @@ namespace CourseWork
 
         public void AddSection(string name)
         {
-            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(10));
-            IWebElement element = wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Edit sections")));
+            IWebElement element = _wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Edit sections")));
             element.Click();
             if (_sectionCounter == 0)
             {
-                wait.Until(e => e.FindElement(By.ClassName("input")).GetAttribute("placeholder") == "New section name");
+                _wait.Until(e => e.FindElement(By.ClassName("input")).GetAttribute("placeholder") == "New section name");
             }
 
             ReadOnlyCollection<IWebElement> inputFields =
-                wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("input")));
+                _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("input")));
             inputFields[_sectionCounter].Click();
             inputFields[_sectionCounter].SendKeys(name);
             ReadOnlyCollection<IWebElement> buttons =
-                wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("button")));
+                _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("button")));
             buttons[_sectionCounter + 1].Click();
             _sectionCounter++;
         }
 
         public void RemoveAllItems()
         {
-            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(10));
-            IWebElement element = wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Options")));
+            IWebElement element = _wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Options")));
             element.Click();
             ReadOnlyCollection<IWebElement> buttons =
-                wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("button")));
+                _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("button")));
             buttons[1].Click();
-            buttons = wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("button")));
+            buttons = _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("button")));
             buttons[3].Click();
             _itemCounter = 0;
         }
 
         public void RemoveItem(string name)
         {
-            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(10));
-            IWebElement element = wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Shopping list")));
+            IWebElement element = _wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Shopping list")));
             element.Click();
             ReadOnlyCollection<IWebElement> buttons =
-                wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("button")));
+                _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("button")));
             ReadOnlyCollection<IWebElement> items =
-                wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("is-size-4")));
+                _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("is-size-4")));
             for (int i = 0; i < items.Count; i++)
             {
                 if (items[i].Text == name)
@@ -210,23 +208,22 @@ namespace CourseWork
                 }
             }
 
-            buttons = wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("button")));
+            buttons = _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("button")));
             buttons[items.Count + 3].Click();
-            wait.Until(ExpectedConditions.StalenessOf(buttons[items.Count + 3]));
-            buttons = wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("button")));
+            _wait.Until(ExpectedConditions.StalenessOf(buttons[items.Count + 3]));
+            buttons = _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("button")));
             buttons[items.Count + 3].Click();
             _itemCounter--;
         }
 
         public void CrossOutItem(string name)
         {
-            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(10));
-            IWebElement element = wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Shopping list")));
+            IWebElement element = _wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Shopping list")));
             element.Click();
             ReadOnlyCollection<IWebElement> checks =
-                wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("check")));
+                _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("check")));
             ReadOnlyCollection<IWebElement> items =
-                wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("is-size-4")));
+                _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("is-size-4")));
             for (int i = 0; i < items.Count; i++)
             {
                 if (items[i].Text == name)
@@ -238,13 +235,12 @@ namespace CourseWork
 
         public void EditItemName(string name, string finalName)
         {
-            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(10));
-            IWebElement element = wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Shopping list")));
+            IWebElement element = _wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Shopping list")));
             element.Click();
             ReadOnlyCollection<IWebElement> buttons =
-                wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("button")));
+                _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("button")));
             ReadOnlyCollection<IWebElement> items =
-                wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("is-size-4")));
+                _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("is-size-4")));
             for (int i = 0; i < items.Count; i++)
             {
                 if (items[i].Text == name)
@@ -253,7 +249,7 @@ namespace CourseWork
                 }
             }
 
-            element = wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("input")));
+            element = _wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("input")));
             element.Click();
             Actions actionProvider = new Actions(Driver);
             IAction keydown = actionProvider.KeyDown(Keys.Control).SendKeys("a").Build();
@@ -265,13 +261,12 @@ namespace CourseWork
 
         public void EditItemSection(string name, string sectionName)
         {
-            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(10));
-            IWebElement element = wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Shopping list")));
+            IWebElement element = _wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Shopping list")));
             element.Click();
             ReadOnlyCollection<IWebElement> buttons =
-                wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("button")));
+                _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("button")));
             ReadOnlyCollection<IWebElement> items =
-                wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("is-size-4")));
+                _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("is-size-4")));
             for (int i = 0; i < items.Count; i++)
             {
                 if (items[i].Text == name)
@@ -280,10 +275,10 @@ namespace CourseWork
                 }
             }
 
-            buttons = wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("button")));
+            buttons = _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("button")));
             buttons[items.Count + 2].Click();
             ReadOnlyCollection<IWebElement> dropdownItems =
-                wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("dropdown-item")));
+                _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("dropdown-item")));
             for (int i = 0; i < dropdownItems.Count; i++)
             {
                 if (dropdownItems[i].Text == sectionName)
@@ -297,11 +292,10 @@ namespace CourseWork
 
         public void EditSectionName(string name, string finalName)
         {
-            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(10));
-            IWebElement element = wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Edit sections")));
+            IWebElement element = _wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Edit sections")));
             element.Click();
             ReadOnlyCollection<IWebElement> inputFields =
-                wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("input")));
+                _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("input")));
             for (int i = 0; i < inputFields.Count; i++)
             {
                 if (inputFields[i].GetAttribute("value") == name)
@@ -318,13 +312,12 @@ namespace CourseWork
 
         public void RemoveSection(string name)
         {
-            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(10));
-            IWebElement element = wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Edit sections")));
+            IWebElement element = _wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Edit sections")));
             element.Click();
             ReadOnlyCollection<IWebElement> inputFields =
-                wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("input")));
+                _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("input")));
             ReadOnlyCollection<IWebElement> buttons =
-                wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("button")));
+                _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("button")));
             for (int i = 0; i < inputFields.Count; i++)
             {
                 if (inputFields[i].GetAttribute("value") == name)
