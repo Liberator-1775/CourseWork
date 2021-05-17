@@ -17,7 +17,6 @@ namespace CourseWork
             var shopping = new Shopping
                 {Driver = new RemoteWebDriver(new Uri(@"http://localhost:4444"), chromeOptions)};
             shopping.Driver.Navigate().GoToUrl(@"http://172.20.0.2:3000");
-            shopping.Driver.Quit();
             shopping.Driver.Manage().Window.Maximize();
             shopping.AddSection("Test section 1");
             shopping.Driver.Navigate().GoToUrl(@"http://172.20.0.2:3000/");
