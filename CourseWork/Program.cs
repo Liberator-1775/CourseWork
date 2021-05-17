@@ -16,10 +16,11 @@ namespace CourseWork
             ChromeOptions chromeOptions = new ChromeOptions();
             var shopping = new Shopping
                 {Driver = new RemoteWebDriver(new Uri(@"http://localhost:4444"), chromeOptions)};
-            shopping.Driver.Navigate().GoToUrl(@"http://172.20.0.2:3000");
+            shopping.Driver.Navigate().GoToUrl(@"http://172.20.0.3:3000");
+            shopping.Driver.Quit();
             shopping.Driver.Manage().Window.Maximize();
             shopping.AddSection("Test section 1");
-            shopping.Driver.Navigate().GoToUrl(@"http://172.20.0.2:3000/");
+            shopping.Driver.Navigate().GoToUrl(@"http://172.20.0.3:3000/");
             shopping.AddItem("Test item 1", "Test section 1");
             shopping.AddItem("Test item 2", "Test section 1");
             shopping.RemoveItem("Test item 1");
@@ -44,7 +45,7 @@ namespace CourseWork
         {
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(10));
             IWebElement element;
-            if (Driver.Url == @"http://172.20.0.2:3000/options")
+            if (Driver.Url == @"http://172.20.0.3:3000/options")
             {
                 element = wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Add items")));
                 element.Click();
@@ -69,7 +70,7 @@ namespace CourseWork
                 element = wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("button")));
                 element.SendKeys(Keys.Escape);
             }
-            else if (Driver.Url == @"http://172.20.0.2:3000/sections")
+            else if (Driver.Url == @"http://172.20.0.3:3000/sections")
             {
                 element = wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Add items")));
                 element.Click();
@@ -95,7 +96,7 @@ namespace CourseWork
                 element = wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("button")));
                 element.SendKeys(Keys.Escape);
             }
-            else // Url == @"http://172.20.0.2:3000/"
+            else // Url == @"http://172.20.0.3:3000/"
             {
                 if (_itemCounter > 0)
                 {
@@ -155,6 +156,7 @@ namespace CourseWork
             {
                 wait.Until(e => e.FindElement(By.ClassName("input")).GetAttribute("placeholder") == "New section name");
             }
+
             ReadOnlyCollection<IWebElement> inputFields =
                 wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.ClassName("input")));
             inputFields[_sectionCounter].Click();
