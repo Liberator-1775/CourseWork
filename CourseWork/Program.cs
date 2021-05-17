@@ -51,7 +51,7 @@ namespace CourseWork
             getAppUrl.StartInfo.UseShellExecute = false;
             getAppUrl.StartInfo.RedirectStandardOutput = true;
             getAppUrl.Start();
-            Url = new StringBuilder("http://" + getAppUrl.StandardOutput.ReadToEnd() + ":3000");
+            Url = new StringBuilder(@"http://" + getAppUrl.StandardOutput.ReadToEnd() + @":3000");
             Driver.Navigate().GoToUrl(Url.ToString());
             _wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(60));
         }
