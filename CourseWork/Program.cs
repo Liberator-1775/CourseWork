@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Text;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
@@ -13,13 +15,10 @@ namespace CourseWork
     {
         private static void Main()
         {
-            ChromeOptions chromeOptions = new ChromeOptions();
-            var shopping = new Shopping
-                {Driver = new RemoteWebDriver(new Uri(@"http://localhost:4444"), chromeOptions)};
-            shopping.Driver.Navigate().GoToUrl(@"http://172.20.0.2:3000");
+            var shopping = new Shopping();
             shopping.Driver.Manage().Window.Maximize();
             shopping.AddSection("Test section 1");
-            shopping.Driver.Navigate().GoToUrl(@"http://172.20.0.2:3000/");
+            shopping.Driver.Navigate().GoToUrl(shopping.Url.ToString());
             shopping.AddItem("Test item 1", "Test section 1");
             shopping.AddItem("Test item 2", "Test section 1");
             shopping.RemoveItem("Test item 1");
@@ -36,15 +35,30 @@ namespace CourseWork
 
     public class Shopping
     {
-        public IWebDriver Driver { get; init; }
-        private int _sectionCounter = 0;
-        private int _itemCounter = 0;
+        public readonly IWebDriver Driver;
+        private int _sectionCounter;
+        private int _itemCounter;
+        public StringBuilder Url { get; }
+
+        public Shopping()
+        {
+            ChromeOptions chromeOptions = new ChromeOptions();
+            Driver = new RemoteWebDriver(new Uri(@"http://localhost:4444"), chromeOptions);
+            Process getAppUrl = new Process();
+            getAppUrl.StartInfo.FileName = "docker";
+            getAppUrl.StartInfo.Arguments = "exec -it shopping_app_1 hostname -i";
+            getAppUrl.StartInfo.UseShellExecute = false;
+            getAppUrl.StartInfo.RedirectStandardOutput = true;
+            getAppUrl.Start();
+            Url = new StringBuilder("http://" + getAppUrl.StandardOutput.ReadToEnd() + ":3000");
+            Driver.Navigate().GoToUrl(Url.ToString());
+        }
 
         public void AddItem(string name, string sectionName)
         {
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(10));
             IWebElement element;
-            if (Driver.Url == @"http://172.20.0.2:3000/options")
+            if (Driver.Url == Url + @"/options")
             {
                 element = wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Add items")));
                 element.Click();
@@ -69,7 +83,7 @@ namespace CourseWork
                 element = wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("button")));
                 element.SendKeys(Keys.Escape);
             }
-            else if (Driver.Url == @"http://172.20.0.2:3000/sections")
+            else if (Driver.Url == Url + @"/sections")
             {
                 element = wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Add items")));
                 element.Click();
@@ -95,7 +109,7 @@ namespace CourseWork
                 element = wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("button")));
                 element.SendKeys(Keys.Escape);
             }
-            else // Url == @"http://172.20.0.2:3000/"
+            else // Url == @"http://172.20.0.X:3000/"
             {
                 if (_itemCounter > 0)
                 {
