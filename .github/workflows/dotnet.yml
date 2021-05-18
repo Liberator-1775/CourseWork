@@ -19,7 +19,7 @@ jobs:
         git submodule init
         git submodule update
         docker build -t shopping .
-        docker-compose up -d
+        docker compose up -d
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v1
       with:
