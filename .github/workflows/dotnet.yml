@@ -27,5 +27,6 @@ jobs:
     - name: Run tests
       run: dotnet run --project ./CourseWork/CourseWork.csproj
     - name: Stop shopping
+      working-directory: ./shopping
       run: |
         docker-compose stop
