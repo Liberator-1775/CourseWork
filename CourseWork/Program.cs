@@ -47,7 +47,7 @@ namespace CourseWork
             Driver = new RemoteWebDriver(new Uri(@"http://localhost:4444"), chromeOptions);
             Process getAppUrl = new Process();
             getAppUrl.StartInfo.FileName = "docker";
-            getAppUrl.StartInfo.Arguments = "exec -it shopping_app_1 hostname -i";
+            getAppUrl.StartInfo.Arguments = "exec shopping_app_1 hostname -i";
             getAppUrl.StartInfo.UseShellExecute = false;
             getAppUrl.StartInfo.RedirectStandardOutput = true;
             getAppUrl.Start();
