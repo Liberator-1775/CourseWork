@@ -15,21 +15,34 @@ namespace CourseWork
     {
         private static void Main()
         {
-            var shopping = new Shopping();
-            shopping.Driver.Manage().Window.Maximize();
-            shopping.AddSection("Test section 1");
-            shopping.Driver.Navigate().GoToUrl(shopping.Url.ToString());
-            shopping.AddItem("Test item 1", "Test section 1");
-            shopping.AddItem("Test item 2", "Test section 1");
-            shopping.RemoveItem("Test item 1");
-            shopping.CrossOutItem("Test item 2");
-            shopping.EditItemName("Test item 2", "2nd test item");
-            shopping.AddSection("Test section 2");
-            shopping.EditItemSection("2nd test item", "Test section 2");
-            shopping.EditSectionName("Test section 2", "2nd test section");
-            shopping.RemoveSection("2nd test section");
-            shopping.RemoveAllItems();
-            shopping.Driver.Quit();
+            ChromeOptions options = new ChromeOptions();
+            var shopping = new Shopping(options);
+            try
+            {
+                shopping.Driver.Manage().Window.Maximize();
+                shopping.AddSection("Test section 1");
+                shopping.Driver.Navigate().GoToUrl(shopping.Url.ToString());
+                shopping.AddItem("Test item 1", "Test section 1");
+                shopping.AddItem("Test item 2", "Test section 1");
+                shopping.Driver.Navigate().GoToUrl(shopping.Url + @"/options");
+                shopping.AddItem("Test item 3", "Test section 1");
+                shopping.Driver.Navigate().GoToUrl(shopping.Url + @"/sections");
+                shopping.AddItem("Test item 4", "Test section 1");
+                shopping.RemoveItem("Test item 1");
+                shopping.CrossOutItem("Test item 2");
+                shopping.EditItemName("Test item 2", "2nd test item");
+                shopping.AddSection("Test section 2");
+                shopping.EditItemSection("2nd test item", "Test section 2");
+                shopping.EditSectionName("Test section 2", "2nd test section");
+                shopping.RemoveSection("Test section 1");
+                shopping.RemoveAllItems();
+                shopping.Driver.Quit();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                shopping.Driver.Quit();
+            }
         }
     }
 
@@ -41,17 +54,16 @@ namespace CourseWork
         public StringBuilder Url { get; }
         private WebDriverWait _wait;
 
-        public Shopping()
+        public Shopping(DriverOptions options)
         {
-            ChromeOptions chromeOptions = new ChromeOptions();
-            Driver = new RemoteWebDriver(new Uri(@"http://localhost:4444"), chromeOptions);
+            Driver = new RemoteWebDriver(new Uri(@"http://localhost:4444"), options);
             Process getAppUrl = new Process();
             getAppUrl.StartInfo.FileName = "docker";
             getAppUrl.StartInfo.Arguments = "exec shopping_app_1 hostname -i";
             getAppUrl.StartInfo.UseShellExecute = false;
             getAppUrl.StartInfo.RedirectStandardOutput = true;
             getAppUrl.Start();
-            Url = new StringBuilder(@"http://" + getAppUrl.StandardOutput.ReadToEnd() + @":3000");
+            Url = new StringBuilder(@"http://" + getAppUrl.StandardOutput.ReadLine() + @":3000");
             Driver.Navigate().GoToUrl(Url.ToString());
             _wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(60));
         }
@@ -59,7 +71,7 @@ namespace CourseWork
         public void AddItem(string name, string sectionName)
         {
             IWebElement element;
-            if (Driver.Url == Url + @"/options")
+            if (Driver.Url.Equals(Url + @"/options"))
             {
                 element = _wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Add items")));
                 element.Click();
@@ -84,7 +96,7 @@ namespace CourseWork
                 element = _wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("button")));
                 element.SendKeys(Keys.Escape);
             }
-            else if (Driver.Url == Url + @"/sections")
+            else if (Driver.Url.Equals(Url + @"/sections"))
             {
                 element = _wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Add items")));
                 element.Click();
