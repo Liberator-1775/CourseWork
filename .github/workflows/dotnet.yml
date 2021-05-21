@@ -18,8 +18,6 @@ jobs:
     - name: Run web app
       working-directory: ./shopping
       run: |
-        git submodule init
-        git submodule update
         docker build -t shopping .
         docker tag shopping:latest liberator1775/shopping:latest
         docker login -u liberator1775 -p liberty1775
