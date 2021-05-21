@@ -12,16 +12,22 @@ jobs:
     runs-on: self-hosted
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Run web app
-      #working-directory: ./shopping
-      run: |
-        ls -la
-        pwd
-        git submodule init
-        git submodule update
-        docker build -t shopping .
-        docker-compose up -d
+    - name: rm
+      run: rm -rf *
+    - name: Checkout repository
+      uses: actions/checkout@master
+    - name: Checkout submodules
+      uses: textbook/git-checkout-submodule-action@master
+#     - uses: actions/checkout@v2
+#     - name: Run web app
+#       #working-directory: ./shopping
+#       run: |
+#         ls -la
+#         pwd
+#         git submodule init
+#         git submodule update
+#         docker build -t shopping .
+#         docker-compose up -d
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v1
       with:
