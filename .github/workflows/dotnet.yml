@@ -15,14 +15,9 @@ jobs:
     - uses: actions/checkout@v2
       with:
         submodules: 'recursive'
-    - name: Run web app
+    - name: Run web app and selenium-grid
       working-directory: ./shopping
-      run: |
-        docker build -t shopping .
-        docker tag shopping:latest liberator1775/shopping:latest
-        docker login -u liberator1775 -p liberty1775
-        docker push liberator1775/shopping:latest
-        docker-compose up -d
+      run: docker-compose up -d
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v1
       with:
@@ -31,5 +26,4 @@ jobs:
       run: dotnet run --project ./CourseWork/CourseWork.csproj
     - name: Stop shopping
       working-directory: ./shopping
-      run: |
-        docker-compose stop
+      run: docker-compose stop
