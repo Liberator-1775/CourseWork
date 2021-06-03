@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
+using ShoppingClass;
 
 namespace Tests
 {
@@ -13,7 +14,7 @@ namespace Tests
         public void ChromeTest()
         {
             ChromeOptions options = new ChromeOptions();
-            var shopping = new Shopping.Shopping(options);
+            var shopping = new Shopping(options);
             try
             {
                 shopping.Driver.Manage().Window.Maximize();
@@ -46,7 +47,7 @@ namespace Tests
         public void FirefoxTest()
         {
             FirefoxOptions options = new FirefoxOptions();
-            var shopping = new Shopping.Shopping(options);
+            var shopping = new Shopping(options);
             try
             {
                 shopping.Driver.Manage().Window.Maximize();
@@ -79,7 +80,7 @@ namespace Tests
         public void EdgeTest()
         {
             EdgeOptions options = new EdgeOptions();
-            var shopping = new Shopping.Shopping(options);
+            var shopping = new Shopping(options);
             try
             {
                 shopping.Driver.Manage().Window.Maximize();

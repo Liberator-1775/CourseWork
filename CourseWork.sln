@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopping", "Shopping\Shopping.csproj", "{712E3472-5A52-44FD-9E15-BDB9B62F12EA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{7F3B8198-8839-4B36-A5C7-EE2A3997B1F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingClass", "ShoppingClass\ShoppingClass.csproj", "{616CA454-5C13-4CA9-9E76-E6F23E92FDD6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +18,9 @@ Global
 		{7F3B8198-8839-4B36-A5C7-EE2A3997B1F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F3B8198-8839-4B36-A5C7-EE2A3997B1F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F3B8198-8839-4B36-A5C7-EE2A3997B1F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{616CA454-5C13-4CA9-9E76-E6F23E92FDD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{616CA454-5C13-4CA9-9E76-E6F23E92FDD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{616CA454-5C13-4CA9-9E76-E6F23E92FDD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{616CA454-5C13-4CA9-9E76-E6F23E92FDD6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
